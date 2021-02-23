@@ -1,6 +1,6 @@
 # Sistem Pengaduan Masyarakat
 
-# After clone/zip download
+## After clone/zip download
 - ```cd pengaduan-vue```
 - ```cp .env.example .env```
 - ```php artisan key:generate```
