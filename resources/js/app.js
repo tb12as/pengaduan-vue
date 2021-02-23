@@ -15,9 +15,20 @@ Vue.use(VueSweetalert2); // https://www.npmjs.com/package/vue-sweetalert2
 Vue.use(VueToasted); // https://github.com/shakee93/vue-toasted
 
 
+Vue.mixin({
+	methods: {
+		notif(pesan, type) {
+			this.$toasted.show(pesan, {
+				keepOnHover: true,
+				duration: 2000,
+				type: type || 'info',
+			})
+		}
+	}
+})
 Vue.component('App', require('./components/App.vue').default);
 
 const app = new Vue({
-    el: '#app',
-    router: router
+	el: '#app',
+	router: router
 });

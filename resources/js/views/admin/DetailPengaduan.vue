@@ -158,6 +158,8 @@
 				axios.post('/api/admin/tanggapan', this.form)
 				.then(res => {
 					this.loadPengaduan()
+					this.notif(this.updateTanggapan ? 'Tanggapan diubah' : 'Tanggapan dikirimkan', 'success')
+
 					if (this.updateTanggapan) {
 						this.updateModeToggle()
 					}

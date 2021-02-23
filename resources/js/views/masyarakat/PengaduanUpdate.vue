@@ -118,6 +118,8 @@
 				axios.post('/api/masyarakat/pengaduan/'+this.$route.params.slug, formData)
 				.then((res) => {
 					this.$router.push('/masyarakat/pengaduan/')
+					this.notif('Pengaduan berhasil diubah', 'info')
+
 					// console.log(res)
 				})
 				.catch((err) => {

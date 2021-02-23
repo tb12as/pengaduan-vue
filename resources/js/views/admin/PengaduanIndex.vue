@@ -207,32 +207,13 @@
 						axios.post('/api/admin/valid/'+pengaduan_id)
 						.then(res => {
 							this.loadPengaduan()
+							this.notif('Pengaduan dipindahkan ke bagian proses', 'success')
 						})
 						.catch(err => console.log(err))
 					}
 				})
 			},
 
-			// deleteLaporan(pengaduan_id) {
-				// 	this.$swal.fire({
-					// 		title: 'Hapus laporan?',
-					// 		text: "Aksi ini tidak dapat dibatalkan!",
-					// 		icon: 'warning',
-					// 		showCancelButton: true,
-					// 		confirmButtonColor: '#3085d6',
-					// 		cancelButtonColor: '#d33',
-					// 		confirmButtonText: 'Hapus',
-					// 		cancelButtonText: 'Batal',
-					// 	}).then((result) => {
-						// 		if (result.isConfirmed) {
-							// 			axios.delete('/api/admin/pengaduan/'+pengaduan_id)
-							// 			.then(res => {
-								// 				this.loadPengaduan()
-								// 			})
-								// 			.catch(err => console.log(err))
-								// 		}
-								// 	})
-								// }
-							}
-						}
-					</script>
+		}
+	}
+</script>

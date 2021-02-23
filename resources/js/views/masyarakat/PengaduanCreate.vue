@@ -83,6 +83,7 @@
 
 				await axios.post('/api/masyarakat/pengaduan/', formData).then((res) => {
 					this.$router.push('/masyarakat/pengaduan/')
+					this.notif('Pengaduan berhasil dikirm', 'info')
 					// console.log(res)
 				})
 				.catch((err) => {

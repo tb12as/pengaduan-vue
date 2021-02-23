@@ -7,10 +7,6 @@
 						<h5>Login</h5>
 					</div>
 					<div class="card-body">
-						<div class="errorValidation">
-							<p class="alert alert-danger font-weight-bold" v-for="(error, index) in errorValidation" :key="index">{{ error }}</p>
-						</div>
-
 						<form @submit.prevent="login">
 							<div class="form-group">
 								<label for="username">Username</label>
@@ -57,12 +53,15 @@
 				axios.get('/sanctum/csrf-cookie').then(response => {
 					axios.post('/login', this.form).then(response => {
 						localStorage.setItem('status', 'logged')
+						this.notif('Berhasil login', 'success')
 						this.$router.push('/home/');
 					})
 					.catch((err) => {
-						console.log(err)
 						if (err.response.status == 422) {
 							this.errors = err.response.data.errors
+							this.errorValidation.forEach(val => {
+								this.notif(val, 'error')
+							})
 						}
 					})
 				});

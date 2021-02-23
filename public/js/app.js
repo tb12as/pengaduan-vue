@@ -1982,10 +1982,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2009,12 +2005,16 @@ __webpack_require__.r(__webpack_exports__);
         axios.post('/login', _this.form).then(function (response) {
           localStorage.setItem('status', 'logged');
 
+          _this.notif('Berhasil login', 'success');
+
           _this.$router.push('/home/');
         })["catch"](function (err) {
-          console.log(err);
-
           if (err.response.status == 422) {
             _this.errors = err.response.data.errors;
+
+            _this.errorValidation.forEach(function (val) {
+              _this.notif(val, 'error');
+            });
           }
         });
       });
@@ -2252,6 +2252,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.post('/api/admin/tanggapan', this.form).then(function (res) {
         _this2.loadPengaduan();
+
+        _this2.notif(_this2.updateTanggapan ? 'Tanggapan diubah' : 'Tanggapan dikirimkan', 'success');
 
         if (_this2.updateTanggapan) {
           _this2.updateModeToggle();
@@ -2502,32 +2504,14 @@ __webpack_require__.r(__webpack_exports__);
           // post to axios
           axios.post('/api/admin/valid/' + pengaduan_id).then(function (res) {
             _this4.loadPengaduan();
+
+            _this4.notif('Pengaduan dipindahkan ke bagian proses', 'success');
           })["catch"](function (err) {
             return console.log(err);
           });
         }
       });
-    } // deleteLaporan(pengaduan_id) {
-    // 	this.$swal.fire({
-    // 		title: 'Hapus laporan?',
-    // 		text: "Aksi ini tidak dapat dibatalkan!",
-    // 		icon: 'warning',
-    // 		showCancelButton: true,
-    // 		confirmButtonColor: '#3085d6',
-    // 		cancelButtonColor: '#d33',
-    // 		confirmButtonText: 'Hapus',
-    // 		cancelButtonText: 'Batal',
-    // 	}).then((result) => {
-    // 		if (result.isConfirmed) {
-    // 			axios.delete('/api/admin/pengaduan/'+pengaduan_id)
-    // 			.then(res => {
-    // 				this.loadPengaduan()
-    // 			})
-    // 			.catch(err => console.log(err))
-    // 		}
-    // 	})
-    // }
-
+    }
   }
 });
 
@@ -2637,6 +2621,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         if (result.isConfirmed) {
           axios["delete"]('/api/masyarakat/pengaduan/' + pengaduan_id).then(function (res) {
             _this2.loadData();
+
+            _this2.notif('Pengaduan dihapus', 'info');
           })["catch"](function (err) {
             return console.log(err);
           });
@@ -2755,7 +2741,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 formData.append('foto', _this2.form.foto);
                 _context.next = 5;
                 return axios.post('/api/masyarakat/pengaduan/', formData).then(function (res) {
-                  _this2.$router.push('/masyarakat/pengaduan/'); // console.log(res)
+                  _this2.$router.push('/masyarakat/pengaduan/');
+
+                  _this2.notif('Pengaduan berhasil dikirm', 'info'); // console.log(res)
 
                 })["catch"](function (err) {
                   console.log(err);
@@ -3049,7 +3037,9 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('foto', this.file.foto);
       formData.append('_method', 'patch');
       axios.post('/api/masyarakat/pengaduan/' + this.$route.params.slug, formData).then(function (res) {
-        _this3.$router.push('/masyarakat/pengaduan/'); // console.log(res)
+        _this3.$router.push('/masyarakat/pengaduan/');
+
+        _this3.notif('Pengaduan berhasil diubah', 'info'); // console.log(res)
 
       })["catch"](function (err) {
         console.log(err);
@@ -3104,6 +3094,17 @@ vue__WEBPACK_IMPORTED_MODULE_4__.default.use(vue_sweetalert2__WEBPACK_IMPORTED_M
 
 vue__WEBPACK_IMPORTED_MODULE_4__.default.use((vue_toasted__WEBPACK_IMPORTED_MODULE_1___default())); // https://github.com/shakee93/vue-toasted
 
+vue__WEBPACK_IMPORTED_MODULE_4__.default.mixin({
+  methods: {
+    notif: function notif(pesan, type) {
+      this.$toasted.show(pesan, {
+        keepOnHover: true,
+        duration: 2000,
+        type: type || 'info'
+      });
+    }
+  }
+});
 vue__WEBPACK_IMPORTED_MODULE_4__.default.component('App', __webpack_require__(/*! ./components/App.vue */ "./resources/js/components/App.vue").default);
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__.default({
   el: '#app',
@@ -44439,22 +44440,6 @@ var render = function() {
           _vm._m(0),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
-            _c(
-              "div",
-              { staticClass: "errorValidation" },
-              _vm._l(_vm.errorValidation, function(error, index) {
-                return _c(
-                  "p",
-                  {
-                    key: index,
-                    staticClass: "alert alert-danger font-weight-bold"
-                  },
-                  [_vm._v(_vm._s(error))]
-                )
-              }),
-              0
-            ),
-            _vm._v(" "),
             _c(
               "form",
               {

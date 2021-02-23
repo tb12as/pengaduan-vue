@@ -72,6 +72,7 @@
 						axios.delete('/api/masyarakat/pengaduan/'+pengaduan_id)
 						.then(res => {
 							this.loadData()
+							this.notif('Pengaduan dihapus', 'info')
 						})
 						.catch(err => console.log(err))
 					}
