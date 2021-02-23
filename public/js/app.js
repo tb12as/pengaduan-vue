@@ -1876,12 +1876,26 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.post('/logout').then(function (response) {
-        localStorage.setItem('status', '');
+      this.$swal.fire({
+        title: 'Logout sekarang?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Logout',
+        cancelButtonText: 'Batal'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios.post('/logout').then(function (response) {
+            localStorage.setItem('status', '');
 
-        _this.$router.push('/login');
-      })["catch"](function (err) {
-        console.log(err);
+            _this.notif('Berhasil logout', 'success');
+
+            _this.$router.push('/login');
+          })["catch"](function (err) {
+            console.log(err);
+          });
+        }
       });
     }
   }

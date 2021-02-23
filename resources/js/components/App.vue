@@ -17,12 +17,26 @@
 
 		methods: {
 			logout() {
-				axios.post('/logout').then(response => {
-					localStorage.setItem('status', '')
-					this.$router.push('/login')
-				})
-				.catch((err) => {
-					console.log(err)
+				this.$swal.fire({
+					title: 'Logout sekarang?',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Logout',
+					cancelButtonText: 'Batal',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						axios.post('/logout').then(response => {
+							localStorage.setItem('status', '')
+							this.notif('Berhasil logout', 'success')
+							this.$router.push('/login')
+						})
+						.catch((err) => {
+							console.log(err)
+						})
+						
+					}
 				})
 			}
 		}
@@ -30,9 +44,9 @@
 </script>
 
 <style>
-	.logout-btn {
-		position: fixed;
-		bottom: 30px;
-		right: 40px;
-	}
+.logout-btn {
+	position: fixed;
+	bottom: 30px;
+	right: 40px;
+}
 </style>
