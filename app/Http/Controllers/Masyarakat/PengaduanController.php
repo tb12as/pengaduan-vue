@@ -37,12 +37,9 @@ class PengaduanController extends Controller
     {
         return new PengaduanResource(Pengaduan::where([
             'slug' => $slug,
-            'status' => '0',
         ])
         ->with([
-            'tanggapan' => function($q) {
-                $q->with('user');
-            },
+            'tanggapan' => fn($q) => $q->with('user'),
             'user'
         ])
         ->firstOrFail()
