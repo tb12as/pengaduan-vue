@@ -97,6 +97,9 @@
 
 							</div>
 
+							<a v-if="level == 'admin'" class="btn btn-outline-primary btn-sm" :href="'/laporan/pdf/download/'+pengaduan.slug" @click.prevent="downloadPdf(form.pengaduan_id)">Cetak Laporan</a>
+
+
 						</div>
 					</div>
 				</div>
@@ -127,12 +130,13 @@
 					isi_tanggapan: '',
 				},
 				not_found: false,
+				level: '',
 			}
 		},
 
 		mounted() {
 			this.loadPengaduan()
-
+			this.getUserRole()
 		},
 
 		methods: {
@@ -177,6 +181,24 @@
 					this.updateTanggapan = true;
 				}
 			},
+
+			downloadPdf(id) {
+				axios.get('/api/admin/cetak/'+id)
+				.then(() => {
+					return;
+				})
+			},
+
+			async getUserRole() {
+				await axios.get('/api/user/role/').then((response) => {
+					// console.log()
+					this.level = response.data[0]
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+			},
+
 		}
 	}
 </script>

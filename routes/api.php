@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CetakController;
 use App\Http\Controllers\Admin\MasyarakatController;
 use App\Http\Controllers\Admin\PengaduanController as PengaduanAdminController;
 use App\Http\Controllers\Admin\TanggapanController;
@@ -41,5 +42,9 @@ Route::middleware('auth:sanctum')->group(function() {
 		]);
 		Route::get('/user-count', [MasyarakatController::class, 'count']);
 		Route::post('/valid/{pengaduan:id}', [PengaduanAdminController::class, 'isValid']);
+	});
+
+	Route::middleware('role:admin')->group(function() {
+		Route::get('/admin/cetak/{pengaduan:id}', [CetakController::class, 'cetakPdf']);
 	});
 });

@@ -147,6 +147,7 @@
 					<div class="card-footer">
 						<!-- <button class="m-1 btn btn-danger btn-sm" @click="deleteLaporan(val.id)">Hapus</button> -->
 						<router-link :to="{name: 'DetailPengaduan', params: {slug: val.slug}}" class="m-1 btn btn-success btn-sm">Detail</router-link>
+						<a v-if="role == 'admin'" class="btn btn-outline-primary btn-sm" :href="'/laporan/pdf/download/'+val.slug" @click.prevent="downloadPdf(val.id)">Cetak PDF</a>
 					</div>
 				</div>
 			</div>
@@ -160,6 +161,9 @@
 </template>
 <script>
 	export default {
+		props: [
+			'role'
+		],
 		data() {
 			return {
 				pengaduan: [],
@@ -213,6 +217,13 @@
 					}
 				})
 			},
+
+			downloadPdf(id) {
+				axios.get('/api/admin/cetak/'+id)
+				.then(() => {
+					return;
+				})
+			}
 
 		}
 	}

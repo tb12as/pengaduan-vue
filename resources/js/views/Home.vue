@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div v-if="level == 'admin' || level == 'petugas'">
-			<PengaduanIndex></PengaduanIndex>
+			<PengaduanIndex :role="level"></PengaduanIndex>
 		</div>
 		<div v-if="level == 'masyarakat'">
 			<PengaduanMasyarakat></PengaduanMasyarakat>
