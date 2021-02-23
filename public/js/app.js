@@ -2208,6 +2208,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2222,11 +2225,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         pengaduan_id: '',
         isi_tanggapan: ''
       },
-      not_found: false
+      not_found: false,
+      level: ''
     };
   },
   mounted: function mounted() {
     this.loadPengaduan();
+    this.getUserRole();
   },
   methods: {
     loadPengaduan: function loadPengaduan() {
@@ -2283,6 +2288,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         this.updateTanggapan = true;
       }
+    },
+    downloadPdf: function downloadPdf(id) {
+      axios.get('/api/admin/cetak/' + id).then(function () {
+        return;
+      });
+    },
+    getUserRole: function getUserRole() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get('/api/user/role/').then(function (response) {
+                  // console.log()
+                  _this3.level = response.data[0];
+                })["catch"](function (err) {
+                  console.log(err);
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
     }
   }
 });
@@ -2460,7 +2494,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['role'],
   data: function data() {
     return {
       pengaduan: [],
@@ -2524,6 +2560,11 @@ __webpack_require__.r(__webpack_exports__);
             return console.log(err);
           });
         }
+      });
+    },
+    downloadPdf: function downloadPdf(id) {
+      axios.get('/api/admin/cetak/' + id).then(function () {
+        return;
       });
     }
   }
@@ -3154,7 +3195,8 @@ try {
 
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'; // window.axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+
 window.axios.defaults.withCredentials = true;
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -44416,7 +44458,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.level == "admin" || _vm.level == "petugas"
-      ? _c("div", [_c("PengaduanIndex")], 1)
+      ? _c("div", [_c("PengaduanIndex", { attrs: { role: _vm.level } })], 1)
       : _vm._e(),
     _vm._v(" "),
     _vm.level == "masyarakat"
@@ -44981,6 +45023,26 @@ var render = function() {
                               )
                             ])
                           ])
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.level == "admin"
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-outline-primary btn-sm",
+                              attrs: {
+                                href:
+                                  "/laporan/pdf/download/" + _vm.pengaduan.slug
+                              },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.downloadPdf(_vm.form.pengaduan_id)
+                                }
+                              }
+                            },
+                            [_vm._v("Cetak Laporan")]
+                          )
                         : _vm._e()
                     ])
                   ])
@@ -45365,7 +45427,24 @@ var render = function() {
                       }
                     },
                     [_vm._v("Detail")]
-                  )
+                  ),
+                  _vm._v(" "),
+                  _vm.role == "admin"
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-outline-primary btn-sm",
+                          attrs: { href: "/laporan/pdf/download/" + val.slug },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.downloadPdf(val.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Cetak PDF")]
+                      )
+                    : _vm._e()
                 ],
                 1
               )
