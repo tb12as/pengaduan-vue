@@ -37,6 +37,7 @@ class PengaduanController extends Controller
     {
         return new PengaduanResource(Pengaduan::where([
             'slug' => $slug,
+            'user_id' => Auth::id(),
         ])
         ->with([
             'tanggapan' => fn($q) => $q->with('user'),
