@@ -2290,9 +2290,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     downloadPdf: function downloadPdf(id) {
-      axios.get('/api/admin/cetak/' + id).then(function () {
-        return;
-      });
+      window.open('/api/admin/cetak/' + id, '_blank');
     },
     getUserRole: function getUserRole() {
       var _this3 = this;
@@ -2612,9 +2610,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     downloadPdf: function downloadPdf(id) {
-      axios.get('/api/admin/cetak/' + id).then(function () {
-        return;
-      });
+      window.open('/api/admin/cetak/' + id, '_blank');
     },
     search: function search() {
       var _this5 = this;

@@ -183,10 +183,7 @@
 			},
 
 			downloadPdf(id) {
-				axios.get('/api/admin/cetak/'+id)
-				.then(() => {
-					return;
-				})
+				window.open('/api/admin/cetak/'+id, '_blank')
 			},
 
 			async getUserRole() {
