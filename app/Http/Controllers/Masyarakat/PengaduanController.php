@@ -35,16 +35,16 @@ class PengaduanController extends Controller
 
     public function show($slug)
     {
-        return new PengaduanResource(Pengaduan::where([
-            'slug' => $slug,
-            'user_id' => Auth::id(),
-        ])
-        ->with([
+        $condition = ['slug' => $slug, 'user_id' => Auth::id()];
+
+        $relation = [
             'tanggapan' => fn($q) => $q->with('user'),
             'user'
-        ])
-        ->firstOrFail()
-    );
+        ];
+        
+        return new PengaduanResource(Pengaduan::where($condition)->with($relation)
+            ->firstOrFail()
+        );
     }
 
     public function update(PengaduanStoreRequest $request, $slug)
