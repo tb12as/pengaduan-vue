@@ -18,7 +18,7 @@ class CetakController extends Controller
 		$file = PDF::loadview('admin.cetak_pengaduan', ['data' => $data]);
 		$file->setPaper('a4');
 
-		$name = strtolower($data->user->name).$data->id;
+		$name = strtolower($data->user->name)."_".rand(10000, 100000);
 
 		$fileName = "laporan_$name.pdf";
 
