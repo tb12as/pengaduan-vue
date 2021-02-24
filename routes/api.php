@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function() {
 		Route::resource('pengaduan', PengaduanController::class)->except([
 			'create', 'edit'
 		]);
+		Route::get('/pengaduan/search/{query}', [PengaduanController::class, 'search']);
 	});
 
 	Route::middleware(['role:admin|petugas'])->prefix('/admin/')->group(function() {

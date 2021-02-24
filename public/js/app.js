@@ -2699,10 +2699,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      pengaduan: []
+      pengaduan: [],
+      searchValue: '',
+      searchOutput: '',
+      waiting: false,
+      timeout: null,
+      searchMode: false
     };
   },
   mounted: function mounted() {
@@ -2756,6 +2771,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           });
         }
       });
+    },
+    search: function search() {
+      var _this3 = this;
+
+      clearInterval(this.timeout);
+      this.waiting = true;
+      this.timeout = setTimeout(function () {
+        _this3.searchOutput = _this3.searchValue;
+
+        _this3.sendSearch();
+
+        _this3.waiting = false;
+      }, 1000);
+    },
+    sendSearch: function sendSearch() {
+      var _this4 = this;
+
+      if (this.searchOutput !== '') {
+        axios.get("/api/masyarakat/pengaduan/search/".concat(this.searchOutput)).then(function (res) {
+          _this4.pengaduan = res.data;
+          _this4.searchMode = true;
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      } else {
+        this.searchMode = false;
+        this.loadData();
+      }
     }
   }
 });
@@ -45662,7 +45705,7 @@ var render = function() {
     "div",
     { staticClass: "container" },
     [
-      _c("h1", [_vm._v("Sistem Pengaduan Masyarakt")]),
+      _c("h3", [_vm._v("Sistem Pengaduan Masyarakat")]),
       _vm._v(" "),
       _c("p", [
         _vm._v(
@@ -45679,10 +45722,48 @@ var render = function() {
         [_vm._v("Buat Laporan")]
       ),
       _vm._v(" "),
-      _c("h2", [_vm._v("Pengaduan Anda")]),
+      _c(
+        "div",
+        { staticClass: "row justify-content-between align-items-center my-4" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.searchValue,
+                  expression: "searchValue"
+                }
+              ],
+              staticClass: "form-control",
+              staticStyle: { "max-width": "300px" },
+              attrs: { type: "text", placeholder: "Cari Pengaduan" },
+              domProps: { value: _vm.searchValue },
+              on: {
+                keyup: _vm.search,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.searchValue = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.waiting
+              ? _c("p", { staticClass: "small text-muted" }, [
+                  _vm._v("Menunggu Anda selesai mengetik")
+                ])
+              : _vm._e()
+          ])
+        ]
+      ),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -45755,6 +45836,14 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-8" }, [
+      _c("h4", {}, [_vm._v("Pengaduan Anda")])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

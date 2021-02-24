@@ -1,11 +1,21 @@
 <template>
 	<div class="container">
-		<h1>Sistem Pengaduan Masyarakt</h1>
+		<h3>Sistem Pengaduan Masyarakat</h3>
 		<p>Lorem, ipsum, dolor sit amet consectetur adipisicing elit. Magnam dolorem facilis necessitatibus voluptatum architecto officiis repellat, alias temporibus enim nulla, iure error molestias fuga incidunt, fugit hic reprehenderit sunt tenetur. Iusto animi rerum nulla alias iure quam vitae veniam, debitis.</p>
 
 		<router-link to="/masyarakat/pengaduan/create" class="btn btn-primary btn-sm">Buat Laporan</router-link>
 
-		<h2>Pengaduan Anda</h2>
+		<div class="row justify-content-between align-items-center my-4">
+			<div class="col-md-8">
+				<h4 class="">Pengaduan Anda</h4>
+			</div>
+			<div class="col-md-4">
+				<input type="text" class="form-control" style="max-width: 300px" placeholder="Cari Pengaduan" @keyup="search" v-model="searchValue">
+
+				<p class="small text-muted" v-if="waiting">Menunggu Anda selesai mengetik</p>
+			</div>
+			
+		</div>
 		<table class="table table-bordered">
 			<thead class="thead-dark">
 				<tr>
@@ -37,7 +47,12 @@
 	export default {
 		data() {
 			return {
-				pengaduan: []
+				pengaduan: [],
+				searchValue: '',
+				searchOutput: '',
+				waiting: false,
+				timeout: null,
+				searchMode: false,
 			}
 		},
 
@@ -77,6 +92,37 @@
 						.catch(err => console.log(err))
 					}
 				})
+			},
+
+			search() {
+				clearInterval(this.timeout)
+
+				this.waiting = true;
+
+				this.timeout = setTimeout(() => {
+
+					this.searchOutput = this.searchValue;
+
+					this.sendSearch()
+
+					this.waiting = false;
+
+				}, 1000) 
+			},
+
+			sendSearch() {
+				if (this.searchOutput !== '') {
+					axios.get(`/api/masyarakat/pengaduan/search/${this.searchOutput}`).then(res => {
+						this.pengaduan = res.data;
+						this.searchMode = true;
+
+					})
+					.catch(err => console.log(err));
+
+				} else {
+					this.searchMode = false;
+					this.loadData()
+				}
 			}
 
 		}

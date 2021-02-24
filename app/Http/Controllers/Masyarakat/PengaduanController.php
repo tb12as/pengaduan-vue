@@ -69,4 +69,17 @@ class PengaduanController extends Controller
         return true;
 
     }
+
+    public function search($query)
+    {
+        $data = Pengaduan::where('isi_laporan', 'like', "%$query%")
+        ->orWhere('status', 'like', "%$query%")
+        ->where('user_id', Auth::id())
+        ->latest()
+        ->get();
+
+        // kalau data ad bnyak, mungkin bakal lemot
+
+        return $data;
+    }
 }
