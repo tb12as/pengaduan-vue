@@ -80,10 +80,10 @@
 		<h4 class="m-2">Pengaduan Baru</h4>
 		<hr>
 		<div class="row">
-			<div class="col-lg-4 col-md-6 col-sm-6 m-2" v-for="(val, index) in pengaduanWhereStatus('0')" :key="index">
+			<div class="col-md-4 my-2" v-for="(val, index) in pengaduanWhereStatus('0')" :key="index">
 				<div class="card">
 					<div class="card-header">
-						<h5>Appaan</h5>
+						<h5>{{ index+1 }}</h5>
 					</div>
 					<div class="card-body">
 						<table class="table-borderless">
@@ -121,10 +121,10 @@
 		<h4 class="m-2">Pengaduan dalam Proses</h4>
 		<hr>
 		<div class="row">
-			<div class="col-md-4 m-2" v-for="(val, index) in pengaduanWhereStatus('proses')" :key="index">
+			<div class="col-md-4 my-2" v-for="(val, index) in pengaduanWhereStatus('proses')" :key="index">
 				<div class="card">
 					<div class="card-header">
-						<h5>Appaan</h5>
+						<h5>{{ index+1 }}</h5>
 					</div>
 					<div class="card-body">
 						<table class="table-borderless">
@@ -160,10 +160,10 @@
 		<h4 class="m-2">Pengaduan Selesai</h4>
 		<hr>
 		<div class="row">
-			<div class="col-md-4 m-2" v-for="(val, index) in pengaduanWhereStatus('selesai')" :key="index">
+			<div class="col-md-4 my-2" v-for="(val, index) in pengaduanWhereStatus('selesai')" :key="index">
 				<div class="card">
 					<div class="card-header">
-						<h5>Appaan</h5>
+						<h5>{{ index+1 }}</h5>
 					</div>
 					<div class="card-body">
 						<table class="table-borderless">

@@ -45376,80 +45376,78 @@ var render = function() {
       { staticClass: "row" },
       [
         _vm._l(_vm.pengaduanWhereStatus("0"), function(val, index) {
-          return _c(
-            "div",
-            { key: index, staticClass: "col-lg-4 col-md-6 col-sm-6 m-2" },
-            [
-              _c("div", { staticClass: "card" }, [
-                _vm._m(0, true),
-                _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c("table", { staticClass: "table-borderless" }, [
-                    _c("tr", [
-                      _c("td", [_vm._v("Nama Pelapor")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(":")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(val.user.name))])
-                    ]),
+          return _c("div", { key: index, staticClass: "col-md-4 my-2" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h5", [_vm._v(_vm._s(index + 1))])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("table", { staticClass: "table-borderless" }, [
+                  _c("tr", [
+                    _c("td", [_vm._v("Nama Pelapor")]),
                     _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Status")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(":")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(val.status))])
-                    ]),
+                    _c("td", [_vm._v(":")]),
                     _vm._v(" "),
-                    _c("tr", [
-                      _c("td", [_vm._v("Isi Laporan")]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(":")]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(val.isi_laporan.substr(0, 40) + "...."))
-                      ])
+                    _c("td", [_vm._v(_vm._s(val.user.name))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Status")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(val.status))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Isi Laporan")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(val.isi_laporan.substr(0, 40) + "...."))
                     ])
                   ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "card-footer" },
-                  [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "m-1 btn btn-info btn-sm",
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.isValid(val.id)
-                          }
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-footer" },
+                [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "m-1 btn btn-info btn-sm",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.isValid(val.id)
                         }
-                      },
-                      [_vm._v("Valid")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "router-link",
-                      {
-                        staticClass: "m-1 btn btn-success btn-sm",
-                        attrs: {
-                          to: {
-                            name: "DetailPengaduan",
-                            params: { slug: val.slug }
-                          }
+                      }
+                    },
+                    [_vm._v("Valid")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "router-link",
+                    {
+                      staticClass: "m-1 btn btn-success btn-sm",
+                      attrs: {
+                        to: {
+                          name: "DetailPengaduan",
+                          params: { slug: val.slug }
                         }
-                      },
-                      [_vm._v("Detail")]
-                    )
-                  ],
-                  1
-                )
-              ])
-            ]
-          )
+                      }
+                    },
+                    [_vm._v("Detail")]
+                  )
+                ],
+                1
+              )
+            ])
+          ])
         }),
         _vm._v(" "),
         _vm.pengaduanWhereStatus("0").length < 1
@@ -45472,9 +45470,11 @@ var render = function() {
       { staticClass: "row" },
       [
         _vm._l(_vm.pengaduanWhereStatus("proses"), function(val, index) {
-          return _c("div", { key: index, staticClass: "col-md-4 m-2" }, [
+          return _c("div", { key: index, staticClass: "col-md-4 my-2" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(1, true),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h5", [_vm._v(_vm._s(index + 1))])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table-borderless" }, [
@@ -45550,9 +45550,11 @@ var render = function() {
       { staticClass: "row" },
       [
         _vm._l(_vm.pengaduanWhereStatus("selesai"), function(val, index) {
-          return _c("div", { key: index, staticClass: "col-md-4 m-2" }, [
+          return _c("div", { key: index, staticClass: "col-md-4 my-2" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(2, true),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h5", [_vm._v(_vm._s(index + 1))])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
                 _c("table", { staticClass: "table-borderless" }, [
@@ -45637,32 +45639,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", [_vm._v("Appaan")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", [_vm._v("Appaan")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h5", [_vm._v("Appaan")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
