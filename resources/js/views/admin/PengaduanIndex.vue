@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<h2>Pengaduan</h2>
-		<div class="row">
+		<div class="row" v-if="!searchMode">
 			<div class="col-lg-3 col-md-6 col-sm-6">
 				<div class="card m-2 my-4 bg-danger text-light">
 					<div class="card-header">
@@ -52,6 +52,31 @@
 
 		</div>
 
+		<div class="row" v-if="searchMode">
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="card m-2 my-4 bg-success text-light">
+					<div class="card-header">
+						Hasil pencarian
+					</div>
+					<div class="card-body d-flex justify-content-start align-items-center">
+						<h1 class="display-4 mr-2">{{ pengaduan.length }}</h1>
+						<p>hasil dari query  {{ searchOutput }}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-6">
+				<form>
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Cari Pengaduan" @keyup="search" v-model="searchValue">
+						<p v-if="waiting">Menunggu Anda selesai mengetik</p>
+					</div>
+				</form>
+			</div>
+		</div>
+
 		<h4 class="m-2">Pengaduan Baru</h4>
 		<hr>
 		<div class="row">
@@ -71,6 +96,11 @@
 								<td>Status</td>
 								<td>:</td>
 								<td>{{ val.status }}</td>
+							</tr>
+							<tr>
+								<td>Isi Laporan</td>
+								<td>:</td>
+								<td>{{ val.isi_laporan.substr(0, 40)+'....' }}</td>
 							</tr>
 						</table>
 					</div>
@@ -108,6 +138,11 @@
 								<td>:</td>
 								<td>{{ val.status }}</td>
 							</tr>
+							<tr>
+								<td>Isi Laporan</td>
+								<td>:</td>
+								<td>{{ val.isi_laporan.substr(0, 40)+'....' }}</td>
+							</tr>
 						</table>
 					</div>
 					<div class="card-footer">
@@ -142,6 +177,11 @@
 								<td>:</td>
 								<td>{{ val.status }}</td>
 							</tr>
+							<tr>
+								<td>Isi Laporan</td>
+								<td>:</td>
+								<td>{{ val.isi_laporan.substr(0, 40)+'....' }}</td>
+							</tr>
 						</table>
 					</div>
 					<div class="card-footer">
@@ -162,12 +202,17 @@
 <script>
 	export default {
 		props: [
-			'role'
+		'role'
 		],
 		data() {
 			return {
 				pengaduan: [],
 				users: '',
+				searchValue: '',
+				searchOutput: '',
+				waiting: false,
+				timeout: null,
+				searchMode: false,
 			}
 		},
 
@@ -210,7 +255,11 @@
 						// post to axios
 						axios.post('/api/admin/valid/'+pengaduan_id)
 						.then(res => {
-							this.loadPengaduan()
+							if (this.searchMode) {
+								this.sendSearch()
+							} else {
+								this.loadPengaduan()
+							}
 							this.notif('Pengaduan dipindahkan ke bagian proses', 'success')
 						})
 						.catch(err => console.log(err))
@@ -223,6 +272,37 @@
 				.then(() => {
 					return;
 				})
+			},
+
+			search() {
+				clearInterval(this.timeout)
+
+				this.waiting = true;
+
+				this.timeout = setTimeout(() => {
+
+					this.searchOutput = this.searchValue;
+
+					this.sendSearch()
+
+					this.waiting = false;
+
+				}, 1000) 
+			},
+
+			sendSearch() {
+				if (this.searchOutput !== '') {
+					axios.get(`/api/admin/pengaduan/search/${this.searchOutput}`).then(res => {
+						this.pengaduan = res.data;
+						this.searchMode = true;
+
+					})
+					.catch(err => console.log(err));
+
+				} else {
+					this.searchMode = false;
+					this.loadPengaduan()
+				}
 			}
 
 		}

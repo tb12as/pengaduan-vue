@@ -16,10 +16,10 @@ class PengaduanController extends Controller
     public function show($slug)
     {
     	return Pengaduan::where('slug', $slug)
-    		->with([
-    			'user', 'tanggapan'
-    		])
-    		->firstOrFail();
+        ->with([
+            'user', 'tanggapan'
+        ])
+        ->firstOrFail();
     }
 
     public function isValid(Pengaduan $pengaduan)
@@ -34,5 +34,14 @@ class PengaduanController extends Controller
     {
         $pengaduan->delete();
         return true;
+    }
+
+    public function search($query)
+    {
+        $data = Pengaduan::with('user')->where('isi_laporan','like',"%$query%")
+        ->orWhere('status', 'like', "%$query%")
+        ->orWhereHas('user', fn($q) => $q->where('name', 'like', "%$query%"))
+        ->get();
+        return $data;
     }
 }

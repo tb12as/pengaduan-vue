@@ -42,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function() {
 		]);
 		Route::get('/user-count', [MasyarakatController::class, 'count']);
 		Route::post('/valid/{pengaduan:id}', [PengaduanAdminController::class, 'isValid']);
+
+		Route::get('/pengaduan/search/{query}', [PengaduanAdminController::class, 'search']);
 	});
 
 	Route::middleware('role:admin')->group(function() {

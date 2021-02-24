@@ -2495,12 +2495,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['role'],
   data: function data() {
     return {
       pengaduan: [],
-      users: ''
+      users: '',
+      searchValue: '',
+      searchOutput: '',
+      waiting: false,
+      timeout: null,
+      searchMode: false
     };
   },
   mounted: function mounted() {
@@ -2553,7 +2598,11 @@ __webpack_require__.r(__webpack_exports__);
         if (result.isConfirmed) {
           // post to axios
           axios.post('/api/admin/valid/' + pengaduan_id).then(function (res) {
-            _this4.loadPengaduan();
+            if (_this4.searchMode) {
+              _this4.sendSearch();
+            } else {
+              _this4.loadPengaduan();
+            }
 
             _this4.notif('Pengaduan dipindahkan ke bagian proses', 'success');
           })["catch"](function (err) {
@@ -2566,6 +2615,34 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/api/admin/cetak/' + id).then(function () {
         return;
       });
+    },
+    search: function search() {
+      var _this5 = this;
+
+      clearInterval(this.timeout);
+      this.waiting = true;
+      this.timeout = setTimeout(function () {
+        _this5.searchOutput = _this5.searchValue;
+
+        _this5.sendSearch();
+
+        _this5.waiting = false;
+      }, 1000);
+    },
+    sendSearch: function sendSearch() {
+      var _this6 = this;
+
+      if (this.searchOutput !== '') {
+        axios.get("/api/admin/pengaduan/search/".concat(this.searchOutput)).then(function (res) {
+          _this6.pengaduan = res.data;
+          _this6.searchMode = true;
+        })["catch"](function (err) {
+          return console.log(err);
+        });
+      } else {
+        this.searchMode = false;
+        this.loadPengaduan();
+      }
     }
   }
 });
@@ -45130,96 +45207,162 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("h2", [_vm._v("Pengaduan")]),
     _vm._v(" "),
+    !_vm.searchMode
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
+            _c("div", { staticClass: "card m-2 my-4 bg-danger text-light" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n\t\t\t\t\tBelum di Validasi\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card-body d-flex justify-content-start align-items-center"
+                },
+                [
+                  _c("h1", { staticClass: "display-4 mr-2" }, [
+                    _vm._v(_vm._s(_vm.pengaduanWhereStatus("0").length))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Pengaduan Baru")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
+            _c("div", { staticClass: "card m-2 my-4 bg-warning" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n\t\t\t\t\tPengaduan dalam Proses\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card-body d-flex justify-content-start align-items-center"
+                },
+                [
+                  _c("h1", { staticClass: "display-4 mr-2" }, [
+                    _vm._v(_vm._s(_vm.pengaduanWhereStatus("proses").length))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Yang harus di proses")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
+            _c("div", { staticClass: "card m-2 my-4 bg-success text-light" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n\t\t\t\t\tPengaduan selesai\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card-body d-flex justify-content-start align-items-center"
+                },
+                [
+                  _c("h1", { staticClass: "display-4 mr-2" }, [
+                    _vm._v(_vm._s(_vm.pengaduanWhereStatus("selesai").length))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Sudah selesai")])
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
+            _c("div", { staticClass: "card m-2 my-4 bg-primary text-light" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n\t\t\t\t\tTotal Pengaduan\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card-body d-flex justify-content-start align-items-center"
+                },
+                [
+                  _c("h1", { staticClass: "display-4 mr-2" }, [
+                    _vm._v(_vm._s(_vm.pengaduan.length))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [_vm._v("Pengaduan")])
+                ]
+              )
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.searchMode
+      ? _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
+            _c("div", { staticClass: "card m-2 my-4 bg-success text-light" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n\t\t\t\t\tHasil pencarian\n\t\t\t\t")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "card-body d-flex justify-content-start align-items-center"
+                },
+                [
+                  _c("h1", { staticClass: "display-4 mr-2" }, [
+                    _vm._v(_vm._s(_vm.pengaduan.length))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _vm._v("hasil dari query  " + _vm._s(_vm.searchOutput))
+                  ])
+                ]
+              )
+            ])
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
-        _c("div", { staticClass: "card m-2 my-4 bg-danger text-light" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n\t\t\t\t\tBelum di Validasi\n\t\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "card-body d-flex justify-content-start align-items-center"
-            },
-            [
-              _c("h1", { staticClass: "display-4 mr-2" }, [
-                _vm._v(_vm._s(_vm.pengaduanWhereStatus("0").length))
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Pengaduan Baru")])
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
-        _c("div", { staticClass: "card m-2 my-4 bg-warning" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n\t\t\t\t\tPengaduan dalam Proses\n\t\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "card-body d-flex justify-content-start align-items-center"
-            },
-            [
-              _c("h1", { staticClass: "display-4 mr-2" }, [
-                _vm._v(_vm._s(_vm.pengaduanWhereStatus("proses").length))
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Yang harus di proses")])
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
-        _c("div", { staticClass: "card m-2 my-4 bg-success text-light" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n\t\t\t\t\tPengaduan selesai\n\t\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "card-body d-flex justify-content-start align-items-center"
-            },
-            [
-              _c("h1", { staticClass: "display-4 mr-2" }, [
-                _vm._v(_vm._s(_vm.pengaduanWhereStatus("selesai").length))
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Sudah selesai")])
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-lg-3 col-md-6 col-sm-6" }, [
-        _c("div", { staticClass: "card m-2 my-4 bg-primary text-light" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v("\n\t\t\t\t\tTotal Pengaduan\n\t\t\t\t")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass:
-                "card-body d-flex justify-content-start align-items-center"
-            },
-            [
-              _c("h1", { staticClass: "display-4 mr-2" }, [
-                _vm._v(_vm._s(_vm.pengaduan.length))
-              ]),
-              _vm._v(" "),
-              _c("p", [_vm._v("Pengaduan")])
-            ]
-          )
+      _c("div", { staticClass: "col-6" }, [
+        _c("form", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.searchValue,
+                  expression: "searchValue"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "Cari Pengaduan" },
+              domProps: { value: _vm.searchValue },
+              on: {
+                keyup: _vm.search,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.searchValue = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.waiting
+              ? _c("p", [_vm._v("Menunggu Anda selesai mengetik")])
+              : _vm._e()
+          ])
         ])
       ])
     ]),
@@ -45256,6 +45399,16 @@ var render = function() {
                       _c("td", [_vm._v(":")]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(val.status))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("td", [_vm._v("Isi Laporan")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(":")]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(_vm._s(val.isi_laporan.substr(0, 40) + "...."))
+                      ])
                     ])
                   ])
                 ]),
@@ -45339,6 +45492,16 @@ var render = function() {
                     _c("td", [_vm._v(":")]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(val.status))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Isi Laporan")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(val.isi_laporan.substr(0, 40) + "...."))
+                    ])
                   ])
                 ])
               ]),
@@ -45407,6 +45570,16 @@ var render = function() {
                     _c("td", [_vm._v(":")]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(val.status))])
+                  ]),
+                  _vm._v(" "),
+                  _c("tr", [
+                    _c("td", [_vm._v("Isi Laporan")]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(":")]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(val.isi_laporan.substr(0, 40) + "...."))
+                    ])
                   ])
                 ])
               ]),
