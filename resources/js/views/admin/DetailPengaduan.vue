@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="card my-2" v-if="!render && pengaduan.tanggapan == null">
+					<div class="card my-2" v-if="!render && !pengaduan.tanggapan && pengaduan.status == 'proses'">
 						<div class="card-header">
 							<h5>Berikan Tanggapan</h5>
 						</div>
@@ -57,6 +57,16 @@
 								</div>
 							</form>
 
+						</div>
+					</div>
+
+					<div class="card my-2" v-if="!render && !pengaduan.tanggapan && pengaduan.status == '0'">
+						<div class="card-header">
+							<h5>Pengaduan belum melalui proses validasi. </h5>
+						</div>
+						<div class="card-body">
+							<p class="alert alert-warning">Pastikan laporan sudah valid sebelum ditanggapi</p>
+							<button class="m-1 btn btn-info btn-sm" @click.prevent="isValid(pengaduan.id)">Valid</button>
 						</div>
 					</div>
 
@@ -193,6 +203,33 @@
 				})
 				.catch((err) => {
 					console.log(err)
+				})
+			},
+
+			isValid(pengaduan_id) {
+				this.$swal.fire({
+					title: 'Apakah ini Valid?',
+					text: "Pastikan laporan ini valid sebelum ditanggapi!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Ya',
+					cancelButtonText: 'Tidak',
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// post to axios
+						axios.post('/api/admin/valid/'+pengaduan_id)
+						.then(res => {
+							if (this.searchMode) {
+								this.sendSearch()
+							} else {
+								this.loadPengaduan()
+							}
+							this.notif('Pengaduan dipindahkan ke bagian proses', 'success')
+						})
+						.catch(err => console.log(err))
+					}
 				})
 			},
 

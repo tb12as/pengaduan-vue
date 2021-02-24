@@ -2211,6 +2211,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -2315,6 +2325,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee2);
       }))();
+    },
+    isValid: function isValid(pengaduan_id) {
+      var _this4 = this;
+
+      this.$swal.fire({
+        title: 'Apakah ini Valid?',
+        text: "Pastikan laporan ini valid sebelum ditanggapi!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya',
+        cancelButtonText: 'Tidak'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          // post to axios
+          axios.post('/api/admin/valid/' + pengaduan_id).then(function (res) {
+            if (_this4.searchMode) {
+              _this4.sendSearch();
+            } else {
+              _this4.loadPengaduan();
+            }
+
+            _this4.notif('Pengaduan dipindahkan ke bagian proses', 'success');
+          })["catch"](function (err) {
+            return console.log(err);
+          });
+        }
+      });
     }
   }
 });
@@ -44946,7 +44985,9 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6" }, [
-              !_vm.render && _vm.pengaduan.tanggapan == null
+              !_vm.render &&
+              !_vm.pengaduan.tanggapan &&
+              _vm.pengaduan.status == "proses"
                 ? _c("div", { staticClass: "card my-2" }, [
                     _vm._m(1),
                     _vm._v(" "),
@@ -45005,9 +45046,39 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _vm.pengaduan.tanggapan !== null
+              !_vm.render &&
+              !_vm.pengaduan.tanggapan &&
+              _vm.pengaduan.status == "0"
                 ? _c("div", { staticClass: "card my-2" }, [
                     _vm._m(3),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("p", { staticClass: "alert alert-warning" }, [
+                        _vm._v(
+                          "Pastikan laporan sudah valid sebelum ditanggapi"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "m-1 btn btn-info btn-sm",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.isValid(_vm.pengaduan.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Valid")]
+                      )
+                    ])
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.pengaduan.tanggapan !== null
+                ? _c("div", { staticClass: "card my-2" }, [
+                    _vm._m(4),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-body" }, [
                       !_vm.updateTanggapan && !_vm.render
@@ -45119,7 +45190,7 @@ var render = function() {
                                   })
                                 ]),
                                 _vm._v(" "),
-                                _vm._m(4)
+                                _vm._m(5)
                               ]
                             ),
                             _vm._v(" "),
@@ -45198,6 +45269,14 @@ var staticRenderFns = [
         { staticClass: "btn btn-primary btn-sm", attrs: { type: "submit" } },
         [_vm._v("Simpan Tanggapan")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h5", [_vm._v("Pengaduan belum melalui proses validasi. ")])
     ])
   },
   function() {
