@@ -2748,6 +2748,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -45859,19 +45860,21 @@ var render = function() {
               _c(
                 "td",
                 [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger btn-sm",
-                      on: {
-                        click: function($event) {
-                          $event.preventDefault()
-                          return _vm.deleteLaporan(value.id)
-                        }
-                      }
-                    },
-                    [_vm._v("Delete")]
-                  ),
+                  value.status === "0"
+                    ? _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.deleteLaporan(value.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete")]
+                      )
+                    : _vm._e(),
                   _vm._v(" "),
                   value.status === "0"
                     ? _c(

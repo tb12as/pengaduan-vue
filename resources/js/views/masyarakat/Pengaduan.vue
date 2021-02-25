@@ -32,9 +32,10 @@
 					<td>{{ value.status }}</td>
 					<td>{{ value.isi_laporan.substring(0, 50)+'...' }}</td>
 					<td>
-						<button class="btn btn-danger btn-sm" @click.prevent="deleteLaporan(value.id)">Delete</button>
+						<button v-if="value.status === '0'" class="btn btn-danger btn-sm" @click.prevent="deleteLaporan(value.id)">Delete</button>
 
 						<router-link v-if="value.status === '0'" :to="{name: 'PengaduanUpdate', params: {slug: value.slug}}" class="btn btn-warning btn-sm">Edit</router-link>
+						
 						<router-link :to="{name: 'PengaduanDetail', params: {slug: value.slug}}" class="btn btn-success btn-sm">Detail</router-link>
 					</td>
 				</tr>
