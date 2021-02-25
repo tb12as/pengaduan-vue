@@ -35,7 +35,7 @@ class UserSeeder extends Seeder
         $masyarakat->attachRole('masyarakat');
 
 
-         $masyarakat2 = User::create([
+        $masyarakat2 = User::create([
             'name' => 'Masyarakat 2',
             'nik' => '878738168648',
             'telp' => '123197',
@@ -45,5 +45,16 @@ class UserSeeder extends Seeder
         ]);
 
         $masyarakat2->attachRole('masyarakat');
+
+
+        $petugas = User::create([
+            'name' => 'Petugas',
+            'email' => 'petugas@gmail.com',
+            'username' => 'petugas',
+            'password' => bcrypt('1234'),
+        ]);
+
+        $petugas->attachRole('petugas');
+
     }
 }
