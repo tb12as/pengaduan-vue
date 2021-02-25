@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 // global
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
 import NotFound from '../views/NotFound.vue'
 
@@ -24,6 +25,7 @@ const router = new VueRouter({
 	activeLinkClass: 'active',
 	routes: [
 	{path: '/login/', component: Login, meta: {loginPage: true}},
+	{path: '/register/', component: Register, meta: {loginPage: true}},
 	{path: '/home/', component: Home, meta: {requiresAuth: true}},
 	{path: '/masyarakat/pengaduan/', component: Pengaduan, meta: {requiresAuth: true}},
 	{path: '/masyarakat/pengaduan/create', component: PengaduanCreate, meta: {requiresAuth: true}},
