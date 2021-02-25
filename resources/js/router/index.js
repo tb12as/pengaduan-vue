@@ -22,7 +22,7 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
 	mode: 'history',
-	activeLinkClass: 'active',
+	linkActiveClass: 'active',
 	routes: [
 	{path: '/login/', component: Login, meta: {loginPage: true}},
 	{path: '/register/', component: Register, meta: {loginPage: true}},

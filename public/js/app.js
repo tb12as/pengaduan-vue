@@ -3529,7 +3529,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_10__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_11__.default);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_11__.default({
   mode: 'history',
-  activeLinkClass: 'active',
+  linkActiveClass: 'active',
   routes: [{
     path: '/login/',
     component: _views_Login_vue__WEBPACK_IMPORTED_MODULE_0__.default,
